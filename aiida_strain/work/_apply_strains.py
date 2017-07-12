@@ -1,15 +1,12 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 from aiida.orm import DataFactory
 from aiida.orm.data.base import List, Str
-from plum.util import load_class
 from aiida.work.workchain import WorkChain
+from plum.util import load_class
 
 class ApplyStrains(WorkChain):
     @classmethod
     def define(cls, spec):
-        super(ApplyStrain, cls).define(spec)
+        super(ApplyStrains, cls).define(spec)
 
         spec.input('structure', valid_type=DataFactory('structure'))
         spec.input('strain_kind', valid_type=Str)
@@ -27,7 +24,7 @@ class ApplyStrains(WorkChain):
 
         strain_instance = strain_class(**strain_parameters)
 
-        structure = self.inputs.structure.to_pymatgen()
+        structure = self.inputs.structure.get_pymatgen_structure()
 
         for strength_value in self.inputs.strain_strengths:
             new_structure = strain_instance.apply(structure, strength_multiplier=strength_value)
