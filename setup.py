@@ -27,7 +27,7 @@ if __name__ == '__main__':
         ],
         reentry_register=True,
         install_requires=[
-            'aiida-core',
+            'aiida-core', 'strain', 'plum'
         ],
         extras_require={'test': ['aiida-pytest', 'pytest']},
         entry_points={},
