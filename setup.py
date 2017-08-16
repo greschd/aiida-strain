@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 
+import re
 from setuptools import setup, find_packages
+
+# Get the version number
+with open('./aiida_strain/__init__.py') as f:
+    match_expr = "__version__[^'\"]+(['\"])([^'\"]+)"
+    version = re.search(match_expr, f.read()).group(2).strip()
 
 if __name__ == '__main__':
     setup(
         name='aiida-strain',
-        version='0.0.0a1',
+        version=version,
         description='AiiDA Plugin for applying strain to structures',
         author='Dominik Gresch',
         author_email='greschd@gmx.ch',
