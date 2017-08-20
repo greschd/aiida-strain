@@ -30,4 +30,4 @@ class ApplyStrains(WorkChain):
             new_structure = strain_instance.apply(structure, strength_multiplier=strength_value)
             new_structure_data = DataFactory('structure')()
             new_structure_data.set_pymatgen(new_structure)
-            self.out('strain_{}'.format(strength_value), new_structure_data)
+            self.out('structure_{}'.format(strength_value), new_structure_data)

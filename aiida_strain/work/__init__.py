@@ -1,1 +1,2 @@
 from ._apply_strains import ApplyStrains
+from ._apply_strains_with_symmetry import ApplyStrainsWithSymmetry
