@@ -3,6 +3,8 @@ from aiida.orm.data.base import List, Str
 from aiida.work.workchain import WorkChain
 from plum.util import load_class
 
+from ._util import _get_structure_key
+
 class ApplyStrains(WorkChain):
     @classmethod
     def define(cls, spec):
@@ -30,4 +32,4 @@ class ApplyStrains(WorkChain):
             new_structure = strain_instance.apply(structure, strength_multiplier=strength_value)
             new_structure_data = DataFactory('structure')()
             new_structure_data.set_pymatgen(new_structure)
-            self.out('structure_{}'.format(strength_value), new_structure_data)
+            self.out(_get_structure_key(strength_value), new_structure_data)

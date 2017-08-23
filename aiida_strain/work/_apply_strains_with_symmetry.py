@@ -5,6 +5,7 @@ from aiida.work.workchain import WorkChain, ToContext
 
 from aiida_symmetry_representation.calculations.filter_symmetries import FilterSymmetriesCalculation
 from . import ApplyStrains
+from ._util import _get_structure_key, _get_symmetries_key
 
 class ApplyStrainsWithSymmetry(WorkChain):
     @classmethod
@@ -29,28 +30,27 @@ class ApplyStrainsWithSymmetry(WorkChain):
 
     def run_filter_symmetries(self):
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
-        strained_structures = {
-            key: value for key, value in apply_strains_output.items()
-            if key.startswith('structure_') and len(key.split('_')) == 2
-        }
         tocontext_kwargs = dict()
         process = FilterSymmetriesCalculation.process()
-        for key, structure in strained_structures.items():
-            self.out(key, structure)
-            suffix = key.split('_', 1)[1]
+        for strain_value in self.inputs.strain_strengths:
+            structure_key = _get_structure_key(strain_value)
+            structure_result = apply_strains_output[structure_key]
+            self.out(structure_key, structure_result)
+            symmetries_key = _get_symmetries_key(strain_value)
+
             inputs = process.get_inputs_template()
             inputs.code = self.inputs.symmetry_repr_code
-            inputs.structure = structure
+            inputs.structure = structure_result
             inputs.symmetries = self.inputs.symmetries
             inputs._options.resources = {'num_machines': 1, 'tot_num_mpiprocs': 1}
             inputs._options.withmpi = False
-            tocontext_kwargs['symmetries_{}'.format(suffix)] = submit(
+            tocontext_kwargs[symmetries_key] = submit(
                 process,
                 **inputs
             )
         return ToContext(**tocontext_kwargs)
 
     def finalize(self):
-        for key, value in self.ctx._get_dict().items():
-            if key.startswith('symmetries_'):
-                self.out(key, value.out.symmetries)
+        for strain_value in self.inputs.strain_strengths:
+            symmetries_key = _get_symmetries_key(strain_value)
+            self.out(symmetries_key, self.ctx[symmetries_key].out.symmetries)
