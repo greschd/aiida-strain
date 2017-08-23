@@ -31,7 +31,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
         strained_structures = {
             key: value for key, value in apply_strains_output.items()
-            if key.startswith('structure_')
+            if key.startswith('structure_') and len(key.split('_')) == 2
         }
         tocontext_kwargs = dict()
         process = FilterSymmetriesCalculation.process()

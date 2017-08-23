@@ -25,3 +25,5 @@ def test_strains(configure_with_daemon, strain_inputs, sample):
         symmetries_key = 'symmetries_{}'.format(s)
         assert symmetries_key in result
         assert isinstance(result[symmetries_key], DataFactory('singlefile'))
+    for key in result:
+        assert len(key.split('_')) <= 2
