@@ -12,7 +12,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
     def define(cls, spec):
         super(ApplyStrainsWithSymmetry, cls).define(spec)
 
-        spec.inherit_inputs(ApplyStrains)
+        spec.expose_inputs(ApplyStrains)
         spec.input('symmetries', valid_type=DataFactory('singlefile'))
         spec.input('symmetry_repr_code', valid_type=Code)
 
@@ -25,7 +25,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
     def run_apply_strain(self):
         return ToContext(apply_strains=submit(
             ApplyStrains,
-            **self.inherited_inputs(ApplyStrains)
+            **self.exposed_inputs(ApplyStrains)
         ))
 
     def run_filter_symmetries(self):
