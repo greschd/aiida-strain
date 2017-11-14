@@ -33,7 +33,7 @@ if __name__ == '__main__':
         ],
         reentry_register=True,
         install_requires=[
-            'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation'
+            'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation', 'aiida-tools'
         ],
         extras_require={'test': ['aiida-pytest', 'pytest']},
         entry_points={},

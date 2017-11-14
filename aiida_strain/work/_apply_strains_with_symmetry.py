@@ -2,6 +2,7 @@ from aiida.orm import DataFactory
 from aiida.orm.code import Code
 from aiida.work import submit
 from aiida.work.workchain import WorkChain, ToContext
+from aiida_tools import check_workchain_step
 
 from aiida_symmetry_representation.calculations.filter_symmetries import FilterSymmetriesCalculation
 from . import ApplyStrains
@@ -22,12 +23,14 @@ class ApplyStrainsWithSymmetry(WorkChain):
             cls.finalize
         )
 
+    @check_workchain_step
     def run_apply_strain(self):
         return ToContext(apply_strains=submit(
             ApplyStrains,
             **self.exposed_inputs(ApplyStrains)
         ))
 
+    @check_workchain_step
     def run_filter_symmetries(self):
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
         tocontext_kwargs = dict()
@@ -50,6 +53,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
             )
         return ToContext(**tocontext_kwargs)
 
+    @check_workchain_step
     def finalize(self):
         for strain_value in self.inputs.strain_strengths:
             symmetries_key = _get_symmetries_key(strain_value)
