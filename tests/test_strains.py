@@ -16,6 +16,6 @@ def test_strains(configure_with_daemon, strain_inputs):
     )
 
     for s in strain_list:
-        key = 'structure_{}'.format(s)
+        key = 'structure_{}'.format(s).replace('.', '_dot_')
         assert key in result
         assert isinstance(result[key], DataFactory('structure'))

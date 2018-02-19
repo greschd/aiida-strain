@@ -25,6 +25,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
 
     @check_workchain_step
     def run_apply_strain(self):
+        self.report('Submitting ApplyStrains workchain.')
         return ToContext(apply_strains=submit(
             ApplyStrains,
             **self.exposed_inputs(ApplyStrains)
@@ -32,6 +33,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
 
     @check_workchain_step
     def run_filter_symmetries(self):
+        self.report('Running FilterSymmetriesCalculation.')
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
         tocontext_kwargs = dict()
         process = FilterSymmetriesCalculation.process()
@@ -55,6 +57,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
 
     @check_workchain_step
     def finalize(self):
+        self.report('Adding filtered symmetries to outputs.')
         for strain_value in self.inputs.strain_strengths:
             symmetries_key = _get_symmetries_key(strain_value)
             self.out(symmetries_key, self.ctx[symmetries_key].out.symmetries)
