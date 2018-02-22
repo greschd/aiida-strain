@@ -19,11 +19,12 @@ def test_strains(configure_with_daemon, strain_inputs, sample):
     )
 
     for s in strain_list:
-        structure_key = 'structure_{}'.format(s)
+        structure_key = 'structure_{}'.format(s).replace('.', '_dot_')
         assert structure_key in result
         assert isinstance(result[structure_key], DataFactory('structure'))
-        symmetries_key = 'symmetries_{}'.format(s)
+        symmetries_key = 'symmetries_{}'.format(s).replace('.', '_dot_')
         assert symmetries_key in result
         assert isinstance(result[symmetries_key], DataFactory('singlefile'))
     for key in result:
-        assert len(key.split('_')) <= 2
+        key_withdot = key.replace('_dot_', '.')
+        assert len(key_withdot.split('_')) <= 2

@@ -26,7 +26,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
     @check_workchain_step
     def run_apply_strain(self):
         self.report('Submitting ApplyStrains workchain.')
-        return ToContext(apply_strains=submit(
+        return ToContext(apply_strains=self.submit(
             ApplyStrains,
             **self.exposed_inputs(ApplyStrains)
         ))
@@ -36,23 +36,22 @@ class ApplyStrainsWithSymmetry(WorkChain):
         self.report('Running FilterSymmetriesCalculation.')
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
         tocontext_kwargs = dict()
-        process = FilterSymmetriesCalculation.process()
         for strain_value in self.inputs.strain_strengths:
+            builder = FilterSymmetriesCalculation.get_builder()
             structure_key = _get_structure_key(strain_value)
             structure_result = apply_strains_output[structure_key]
             self.out(structure_key, structure_result)
             symmetries_key = _get_symmetries_key(strain_value)
 
-            inputs = process.get_inputs_template()
-            inputs.code = self.inputs.symmetry_repr_code
-            inputs.structure = structure_result
-            inputs.symmetries = self.inputs.symmetries
-            inputs._options.resources = {'num_machines': 1, 'tot_num_mpiprocs': 1}
-            inputs._options.withmpi = False
-            tocontext_kwargs[symmetries_key] = submit(
-                process,
-                **inputs
+            # inputs = process.get_inputs_template()
+            builder.code = self.inputs.symmetry_repr_code
+            builder.structure = structure_result
+            builder.symmetries = self.inputs.symmetries
+            builder.options = dict(
+                resources={'num_machines': 1, 'tot_num_mpiprocs': 1},
+                withmpi=False
             )
+            tocontext_kwargs[symmetries_key] = self.submit(builder)
         return ToContext(**tocontext_kwargs)
 
     @check_workchain_step
