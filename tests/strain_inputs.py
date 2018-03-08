@@ -29,13 +29,9 @@ def strain_inputs(configure, strain_kind, strain_parameters, sample):
     structure = StructureData()
     structure.set_pymatgen(pymatgen.Structure.from_file(sample('POSCAR')))
 
-    strain_strengths = List()
-    strain_list = [-0.2, -0.1, 0., 0.1, 0.2]
-    strain_strengths._set_list(strain_list)
-
     return dict(
         structure=structure,
         strain_kind=Str(strain_kind),
         strain_parameters=Str(strain_parameters),
-        strain_strengths=strain_strengths
+        strain_strengths=List(list=[-0.2, -0.1, 0., 0.1, 0.2])
     )

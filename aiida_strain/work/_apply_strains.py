@@ -4,7 +4,7 @@ from aiida.work.workchain import WorkChain
 from aiida.work.class_loader import CLASS_LOADER
 from aiida_tools import check_workchain_step
 
-from ._util import _get_structure_key
+from .util import get_structure_key
 
 class ApplyStrains(WorkChain):
     @classmethod
@@ -35,4 +35,4 @@ class ApplyStrains(WorkChain):
             new_structure = strain_instance.apply(structure, strength_multiplier=strength_value)
             new_structure_data = DataFactory('structure')()
             new_structure_data.set_pymatgen(new_structure)
-            self.out(_get_structure_key(strength_value), new_structure_data)
+            self.out(get_structure_key(strength_value), new_structure_data)

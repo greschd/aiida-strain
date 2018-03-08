@@ -6,7 +6,7 @@ from aiida_tools import check_workchain_step
 
 from aiida_symmetry_representation.calculations.filter_symmetries import FilterSymmetriesCalculation
 from . import ApplyStrains
-from ._util import _get_structure_key, _get_symmetries_key
+from .util import get_structure_key, get_symmetries_key
 
 class ApplyStrainsWithSymmetry(WorkChain):
     @classmethod
@@ -38,10 +38,10 @@ class ApplyStrainsWithSymmetry(WorkChain):
         tocontext_kwargs = dict()
         for strain_value in self.inputs.strain_strengths:
             builder = FilterSymmetriesCalculation.get_builder()
-            structure_key = _get_structure_key(strain_value)
+            structure_key = get_structure_key(strain_value)
             structure_result = apply_strains_output[structure_key]
             self.out(structure_key, structure_result)
-            symmetries_key = _get_symmetries_key(strain_value)
+            symmetries_key = get_symmetries_key(strain_value)
 
             # inputs = process.get_inputs_template()
             builder.code = self.inputs.symmetry_repr_code
@@ -58,5 +58,5 @@ class ApplyStrainsWithSymmetry(WorkChain):
     def finalize(self):
         self.report('Adding filtered symmetries to outputs.')
         for strain_value in self.inputs.strain_strengths:
-            symmetries_key = _get_symmetries_key(strain_value)
+            symmetries_key = get_symmetries_key(strain_value)
             self.out(symmetries_key, self.ctx[symmetries_key].out.symmetries)
