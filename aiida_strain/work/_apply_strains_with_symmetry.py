@@ -35,6 +35,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
     def run_filter_symmetries(self):
         self.report('Running FilterSymmetriesCalculation.')
         apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
+        self.report(apply_strains_output.keys())
         tocontext_kwargs = dict()
         for strain_value in self.inputs.strain_strengths:
             builder = FilterSymmetriesCalculation.get_builder()
