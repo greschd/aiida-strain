@@ -1,6 +1,5 @@
 from aiida.orm import DataFactory
 from aiida.orm.code import Code
-from aiida.work import submit
 from aiida.work.workchain import WorkChain, ToContext
 from aiida_tools import check_workchain_step
 
