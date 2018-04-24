@@ -8,6 +8,9 @@ from . import ApplyStrains
 from .util import get_structure_key, get_symmetries_key
 
 class ApplyStrainsWithSymmetry(WorkChain):
+    """
+    Workchain to create strained structures from an input structure, and select the symmetries which are compatible with the strained structure from a set of given input symmetries.
+    """
     @classmethod
     def define(cls, spec):
         super(ApplyStrainsWithSymmetry, cls).define(spec)

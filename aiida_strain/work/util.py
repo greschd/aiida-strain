@@ -1,3 +1,7 @@
+"""
+Defines helper functions to convert strain values into the corresponding output keys.
+"""
+
 def get_suffix(strain_value):
     return '_{}'.format(strain_value).replace('.', '_dot_')
 

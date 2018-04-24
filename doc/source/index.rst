@@ -1,7 +1,7 @@
 aiida-strain
 ==============
 
-``aiida-strain`` is a plugin for AiiDA 
+``aiida-strain`` is a plugin for AiiDA to run the `strain <http://z2pack.ethz.ch/strain>`_ code.
 
 .. toctree::
    :maxdepth: 2
