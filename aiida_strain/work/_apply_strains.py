@@ -1,7 +1,7 @@
 from aiida.orm import DataFactory
 from aiida.orm.data.base import List, Str
 from aiida.work.workchain import WorkChain
-from aiida.work.class_loader import CLASS_LOADER
+from aiida.common.utils import get_object_from_string
 from aiida_tools import check_workchain_step
 
 from .util import get_structure_key
@@ -25,10 +25,10 @@ class ApplyStrains(WorkChain):
     @check_workchain_step
     def apply_strain(self):
         strain_classname = 'strain.structure.' + self.inputs.strain_kind.value
-        strain_class = CLASS_LOADER.load_class(strain_classname)
+        strain_class = get_object_from_string(strain_classname)
 
         strain_parametername = 'strain.parameter.' + self.inputs.strain_parameters.value
-        strain_parameters = CLASS_LOADER.load_class(strain_parametername)
+        strain_parameters = get_object_from_string(strain_parametername)
 
         strain_instance = strain_class(**strain_parameters)
 
