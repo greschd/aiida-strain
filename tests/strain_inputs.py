@@ -2,6 +2,7 @@ import pytest
 
 __all__ = ['strain_kind', 'strain_parameters', 'strain_inputs']
 
+
 @pytest.fixture(params=[
     'three_five.Biaxial001',
     'three_five.Biaxial110',
@@ -11,6 +12,7 @@ __all__ = ['strain_kind', 'strain_parameters', 'strain_inputs']
 def strain_kind(request):
     return request.param
 
+
 @pytest.fixture(params=[
     'InAs',
     'InSb',
@@ -18,6 +20,7 @@ def strain_kind(request):
 ])
 def strain_parameters(request):
     return request.param
+
 
 @pytest.fixture
 def strain_inputs(configure, strain_kind, strain_parameters, sample):
@@ -33,5 +36,4 @@ def strain_inputs(configure, strain_kind, strain_parameters, sample):
         structure=structure,
         strain_kind=Str(strain_kind),
         strain_parameters=Str(strain_parameters),
-        strain_strengths=List(list=[-0.2, -0.1, 0., 0.1, 0.2])
-    )
+        strain_strengths=List(list=[-0.2, -0.1, 0., 0.1, 0.2]))

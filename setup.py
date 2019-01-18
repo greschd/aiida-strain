@@ -17,10 +17,8 @@ if __name__ == '__main__':
         author_email='greschd@gmx.ch',
         license='MIT',
         classifiers=[
-            'Development Status :: 3 - Alpha',
-            'Environment :: Plugins',
-            'Framework :: AiiDA',
-            'Intended Audience :: Science/Research',
+            'Development Status :: 3 - Alpha', 'Environment :: Plugins',
+            'Framework :: AiiDA', 'Intended Audience :: Science/Research',
             'License :: OSI Approved :: MIT License',
             'Programming Language :: Python :: 2.7',
             'Topic :: Scientific/Engineering :: Physics'
@@ -28,12 +26,11 @@ if __name__ == '__main__':
         keywords='strain aiida workflows',
         packages=find_packages(exclude=['aiida']),
         include_package_data=True,
-        setup_requires=[
-            'reentry'
-        ],
+        setup_requires=['reentry'],
         reentry_register=True,
         install_requires=[
-            'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation', 'aiida-tools'
+            'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation',
+            'aiida-tools'
         ],
         extras_require={'test': ['aiida-pytest', 'pytest']},
         entry_points={},

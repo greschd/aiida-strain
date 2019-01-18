@@ -15,6 +15,5 @@ if __name__ == '__main__':
         ApplyStrainsWithSymmetry,
         symmetries=SinglefileData(file=os.path.abspath('symmetries.hdf5')),
         symmetry_repr_code=Code.get_from_string('symmetry-repr'),
-        **get_strain_input()
-    )
+        **get_strain_input())
     print(result)

@@ -1,0 +1,15 @@
+computers:
+  localhost:
+    hostname: localhost
+    description: localhost
+    transport: local
+    scheduler: direct
+    work_directory: /tmp/test_aiida_symmetry_representation
+    prepend_text: 'unset PYTHONPATH'
+
+codes:
+  symmetry_repr:
+    description: symmetry_representation
+    default_plugin: symmetry_representation.filter_symmetries
+    remote_computer: localhost
+    remote_abspath: {symmetry_repr_path}

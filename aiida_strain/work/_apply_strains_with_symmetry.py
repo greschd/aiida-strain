@@ -7,10 +7,12 @@ from aiida_symmetry_representation.calculations.filter_symmetries import FilterS
 from . import ApplyStrains
 from .util import get_structure_key, get_symmetries_key
 
+
 class ApplyStrainsWithSymmetry(WorkChain):
     """
     Workchain to create strained structures from an input structure, and select the symmetries which are compatible with the strained structure from a set of given input symmetries.
     """
+
     @classmethod
     def define(cls, spec):
         super(ApplyStrainsWithSymmetry, cls).define(spec)
@@ -19,19 +21,15 @@ class ApplyStrainsWithSymmetry(WorkChain):
         spec.input('symmetries', valid_type=DataFactory('singlefile'))
         spec.input('symmetry_repr_code', valid_type=Code)
 
-        spec.outline(
-            cls.run_apply_strain,
-            cls.run_filter_symmetries,
-            cls.finalize
-        )
+        spec.outline(cls.run_apply_strain, cls.run_filter_symmetries,
+                     cls.finalize)
 
     @check_workchain_step
     def run_apply_strain(self):
         self.report('Submitting ApplyStrains workchain.')
-        return ToContext(apply_strains=self.submit(
-            ApplyStrains,
-            **self.exposed_inputs(ApplyStrains)
-        ))
+        return ToContext(
+            apply_strains=self.submit(ApplyStrains,
+                                      **self.exposed_inputs(ApplyStrains)))
 
     @check_workchain_step
     def run_filter_symmetries(self):
@@ -51,9 +49,11 @@ class ApplyStrainsWithSymmetry(WorkChain):
             builder.structure = structure_result
             builder.symmetries = self.inputs.symmetries
             builder.options = dict(
-                resources={'num_machines': 1, 'tot_num_mpiprocs': 1},
-                withmpi=False
-            )
+                resources={
+                    'num_machines': 1,
+                    'tot_num_mpiprocs': 1
+                },
+                withmpi=False)
             tocontext_kwargs[symmetries_key] = self.submit(builder)
         return ToContext(**tocontext_kwargs)
 

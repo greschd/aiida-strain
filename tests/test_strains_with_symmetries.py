@@ -2,6 +2,7 @@ import pytest
 
 from strain_inputs import *
 
+
 def test_strains(configure_with_daemon, strain_inputs, sample):
     from aiida.work import run
     from aiida.orm import DataFactory
@@ -15,8 +16,7 @@ def test_strains(configure_with_daemon, strain_inputs, sample):
         ApplyStrainsWithSymmetry,
         symmetries=DataFactory('singlefile')(file=sample('symmetries.hdf5')),
         symmetry_repr_code=Code.get_from_string('symmetry_repr'),
-        **inputs
-    )
+        **inputs)
 
     for s in strain_list:
         structure_key = 'structure_{}'.format(s).replace('.', '_dot_')

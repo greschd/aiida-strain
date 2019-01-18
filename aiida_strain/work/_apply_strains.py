@@ -6,10 +6,12 @@ from aiida_tools import check_workchain_step
 
 from .util import get_structure_key
 
+
 class ApplyStrains(WorkChain):
     """
     Workchain to create strained structures from a given input structure.
     """
+
     @classmethod
     def define(cls, spec):
         super(ApplyStrains, cls).define(spec)
@@ -35,8 +37,10 @@ class ApplyStrains(WorkChain):
         structure = self.inputs.structure.get_pymatgen_structure()
 
         for strength_value in self.inputs.strain_strengths:
-            self.report('Creating structure for strain {}'.format(strength_value))
-            new_structure = strain_instance.apply(structure, strength_multiplier=strength_value)
+            self.report(
+                'Creating structure for strain {}'.format(strength_value))
+            new_structure = strain_instance.apply(
+                structure, strength_multiplier=strength_value)
             new_structure_data = DataFactory('structure')()
             new_structure_data.set_pymatgen(new_structure)
             self.out(get_structure_key(strength_value), new_structure_data)
