@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+
+# © 2017-2019, ETH Zurich, Institut für Theoretische Physik
+# Author: Dominik Gresch <greschd@gmx.ch>
+
 import pytest
 
 __all__ = ['strain_kind', 'strain_parameters', 'strain_inputs']
