@@ -3,7 +3,6 @@
 
 # © 2017-2019, ETH Zurich, Institut für Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
-
 """
 Usage: python configure.py config_input_file config_output_file
 """

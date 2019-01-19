@@ -27,7 +27,7 @@ install:
   - pip install git+https://github.com/greschd/aiida-tools#egg=aiida-tools
   - pip install git+https://github.com/greschd/aiida_symmetry_representation#egg=aiida-symmetry-representation
   - pip install git+https://github.com/greschd/aiida_pytest@develop#egg=aiida-pytest
-  - pip install .[test]
+  - pip install .[test,pre-commit]
 env:
   - TEST_TYPE="pre-commit"
   - TEST_TYPE="tests"

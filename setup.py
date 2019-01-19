@@ -35,6 +35,9 @@ if __name__ == '__main__':
             'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation',
             'aiida-tools'
         ],
-        extras_require={'test': ['aiida-pytest', 'pytest']},
+        extras_require={
+            'test': ['aiida-pytest', 'pytest'],
+            'pre-commit': ['pre-commit', 'yapf==0.25']
+        },
         entry_points={},
     )
