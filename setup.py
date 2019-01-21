@@ -18,12 +18,13 @@ if __name__ == '__main__':
         description='AiiDA Plugin for applying strain to structures',
         author='Dominik Gresch',
         author_email='greschd@gmx.ch',
-        license='MIT',
+        license='Apache 2.0',
         classifiers=[
             'Development Status :: 3 - Alpha', 'Environment :: Plugins',
-            'Framework :: AiiDA', 'Intended Audience :: Science/Research',
+            'Intended Audience :: Science/Research',
             'License :: OSI Approved :: Apache Software License',
             'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3.6',
             'Topic :: Scientific/Engineering :: Physics'
         ],
         keywords='strain aiida workflows',
@@ -32,7 +33,7 @@ if __name__ == '__main__':
         setup_requires=['reentry'],
         reentry_register=True,
         install_requires=[
-            'aiida-core', 'strain', 'plumpy', 'aiida-symmetry-representation',
+            'aiida-core', 'strain', 'aiida-symmetry-representation',
             'aiida-tools'
         ],
         extras_require={
