@@ -18,6 +18,7 @@ if __name__ == '__main__':
         description='AiiDA Plugin for applying strain to structures',
         author='Dominik Gresch',
         author_email='greschd@gmx.ch',
+        url='https://aiida-strain.readthedocs.io',
         license='Apache 2.0',
         classifiers=[
             'Development Status :: 3 - Alpha', 'Environment :: Plugins',

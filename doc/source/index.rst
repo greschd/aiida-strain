@@ -4,7 +4,7 @@
 aiida-strain
 ==============
 
-``aiida-strain`` is a plugin for AiiDA to run the `strain <http://z2pack.ethz.ch/strain>`_ code.
+``aiida-strain`` is a plugin for AiiDA to run the `strain <http://z2pack.ethz.ch/strain>`_ code. It implements a workchain to create strained variants of an input structure. Additionally, a set of symmetries of the initial structure can be given to determine which symmetries remain consistent with the strained structure. 
 
 .. toctree::
    :maxdepth: 2
