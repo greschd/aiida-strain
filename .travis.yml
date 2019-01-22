@@ -25,10 +25,8 @@ before_install:
   - sudo pip3 install symmetry-representation
 install:
   - pip install -U pip wheel setuptools
-  - pip install git+https://github.com/aiidateam/aiida_core.git#egg=aiida-core
-  - pip install git+https://github.com/greschd/aiida-tools#egg=aiida-tools
-  - pip install git+https://github.com/greschd/aiida_symmetry_representation#egg=aiida-symmetry-representation
-  - pip install git+https://github.com/greschd/aiida_pytest@develop#egg=aiida-pytest
+  - pip install git+https://github.com/aiidateam/aiida_core@v1.0.0a4#egg=aiida_core
+  - pip install git+https://github.com/greschd/aiida_pytest@support_alpha_4#egg=aiida_pytest
   - pip install .[test,pre-commit]
 env:
   - TEST_TYPE="pre-commit"
