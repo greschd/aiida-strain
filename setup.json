@@ -42,8 +42,8 @@
   },
   "entry_points": {
     "aiida.workflows": [
-      "strain.apply_strains = aiida_strain.work.ApplyStrains",
-      "strain.apply_strains_with_symmetry = aiida_strain.work.ApplyStrainsWithSymmetry"
+      "strain.apply_strains = aiida_strain.work:ApplyStrains",
+      "strain.apply_strains_with_symmetry = aiida_strain.work:ApplyStrainsWithSymmetry"
     ]
   }
 }
