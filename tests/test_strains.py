@@ -5,7 +5,7 @@
 
 import pytest
 
-from strain_inputs import *
+from strain_inputs import *  # pylint: disable=unused-wildcard-import
 
 
 def test_strains(configure_with_daemon, strain_inputs):
@@ -14,11 +14,12 @@ def test_strains(configure_with_daemon, strain_inputs):
     from aiida_strain.work import ApplyStrains
 
     inputs = strain_inputs
-    strain_list = inputs['strain_strengths'].get_attr('list')
+    strain_list = inputs['strain_strengths'].get_attribute('list')
 
     result = run(ApplyStrains, **strain_inputs)
 
     for s in strain_list:
-        key = 'structure_{}'.format(s).replace('.', '_dot_')
+        key = 'structure_{}'.format(s).replace('.', '_dot_').replace(
+            '-', '_m_')
         assert key in result
         assert isinstance(result[key], DataFactory('structure'))

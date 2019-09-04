@@ -8,7 +8,7 @@ Defines helper functions to convert strain values into the corresponding output 
 
 
 def get_suffix(strain_value):
-    return '_{}'.format(strain_value).replace('.', '_dot_')
+    return '_{}'.format(strain_value).replace('.', '_dot_').replace('-', '_m_')
 
 
 def get_structure_key(strain_value):

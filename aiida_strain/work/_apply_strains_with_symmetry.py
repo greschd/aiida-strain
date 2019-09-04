@@ -26,6 +26,8 @@ class ApplyStrainsWithSymmetry(WorkChain):
         spec.input('symmetries', valid_type=DataFactory('singlefile'))
         spec.input('symmetry_repr_code', valid_type=Code)
 
+        spec.outputs.dynamic = True
+
         spec.outline(cls.run_apply_strain, cls.run_filter_symmetries,
                      cls.finalize)
 
@@ -39,13 +41,14 @@ class ApplyStrainsWithSymmetry(WorkChain):
     @check_workchain_step
     def run_filter_symmetries(self):
         self.report('Running FilterSymmetriesCalculation.')
-        apply_strains_output = self.ctx.apply_strains.get_outputs_dict()
-        self.report(apply_strains_output.keys())
+        apply_strains_outputs = self.ctx.apply_strains.outputs
+        apply_strains_output_keys = list(apply_strains_outputs)
+        self.report(apply_strains_output_keys)
         tocontext_kwargs = dict()
         for strain_value in self.inputs.strain_strengths:
             builder = FilterSymmetriesCalculation.get_builder()
             structure_key = get_structure_key(strain_value)
-            structure_result = apply_strains_output[structure_key]
+            structure_result = apply_strains_outputs[structure_key]
             self.out(structure_key, structure_result)
             symmetries_key = get_symmetries_key(strain_value)
 
@@ -53,7 +56,7 @@ class ApplyStrainsWithSymmetry(WorkChain):
             builder.code = self.inputs.symmetry_repr_code
             builder.structure = structure_result
             builder.symmetries = self.inputs.symmetries
-            builder.options = dict(
+            builder.metadata.options = dict(
                 resources={
                     'num_machines': 1,
                     'tot_num_mpiprocs': 1
@@ -67,4 +70,5 @@ class ApplyStrainsWithSymmetry(WorkChain):
         self.report('Adding filtered symmetries to outputs.')
         for strain_value in self.inputs.strain_strengths:
             symmetries_key = get_symmetries_key(strain_value)
-            self.out(symmetries_key, self.ctx[symmetries_key].out.symmetries)
+            self.out(symmetries_key,
+                     self.ctx[symmetries_key].outputs.symmetries)
