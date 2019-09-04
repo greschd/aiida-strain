@@ -6,9 +6,9 @@
 
 import os
 
-from aiida.work.launch import run
-from aiida.orm.code import Code
-from aiida.orm.data.singlefile import SinglefileData
+from aiida.engine.launch import run
+from aiida.orm import Code
+from aiida.orm import SinglefileData
 
 from aiida_strain.work import ApplyStrainsWithSymmetry
 

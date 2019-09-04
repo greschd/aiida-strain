@@ -3,9 +3,9 @@
 # © 2017-2019, ETH Zurich, Institut für Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 
-from aiida.orm import DataFactory
-from aiida.orm.code import Code
-from aiida.work.workchain import WorkChain, ToContext
+from aiida.plugins import DataFactory
+from aiida.orm import Code
+from aiida.engine import WorkChain, ToContext
 from aiida_tools import check_workchain_step
 
 from aiida_symmetry_representation.calculations.filter_symmetries import FilterSymmetriesCalculation

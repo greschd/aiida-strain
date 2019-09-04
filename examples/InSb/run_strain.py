@@ -6,10 +6,10 @@
 
 import pymatgen
 
-from aiida.orm.data.str import Str
-from aiida.orm.data.list import List
-from aiida.orm.data.structure import StructureData
-from aiida.work.launch import run
+from aiida.orm.nodes.data.str import Str
+from aiida.orm.nodes.data.list import List
+from aiida.orm import StructureData
+from aiida.engine.launch import run
 
 from aiida_strain.work import ApplyStrains
 

@@ -3,9 +3,9 @@
 # © 2017-2019, ETH Zurich, Institut für Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 
-from aiida.orm import DataFactory
-from aiida.orm.data.base import List, Str
-from aiida.work.workchain import WorkChain
+from aiida.plugins import DataFactory
+from aiida.orm import List, Str
+from aiida.engine import WorkChain
 from aiida.common.utils import get_object_from_string
 from aiida_tools import check_workchain_step
 

@@ -30,8 +30,8 @@ def strain_parameters(request):
 @pytest.fixture
 def strain_inputs(configure, strain_kind, strain_parameters, sample):
     import pymatgen
-    from aiida.orm import DataFactory
-    from aiida.orm.data.base import List, Str
+    from aiida.plugins import DataFactory
+    from aiida.orm import List, Str
 
     StructureData = DataFactory('structure')
     structure = StructureData()

@@ -9,8 +9,8 @@ from strain_inputs import *
 
 
 def test_strains(configure_with_daemon, strain_inputs):
-    from aiida.work import run
-    from aiida.orm import DataFactory
+    from aiida.engine import run
+    from aiida.plugins import DataFactory
     from aiida_strain.work import ApplyStrains
 
     inputs = strain_inputs
