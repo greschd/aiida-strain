@@ -4,6 +4,8 @@
 Reference
 =========
 
-.. automodule:: aiida_strain.work
-    :members:
-    :imported-members:
+.. aiida-workchain:: ApplyStrains
+    :module: aiida_strain
+
+.. aiida-workchain:: ApplyStrainsWithSymmetry
+    :module: aiida_strain

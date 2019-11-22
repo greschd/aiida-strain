@@ -2,34 +2,44 @@
 
 # © 2017-2019, ETH Zurich, Institut für Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
+"""
+Tests for the ApplyStrainsWithSymmetries workchain.
+"""
 
-import pytest
+# pylint: disable=unused-argument,redefined-outer-name
 
-from strain_inputs import *
+from strain_inputs import *  # pylint: disable=unused-wildcard-import
 
 
 def test_strains(configure_with_daemon, strain_inputs, sample):
-    from aiida.work import run
-    from aiida.orm import DataFactory
-    from aiida.orm.code import Code
-    from aiida_strain.work import ApplyStrainsWithSymmetry
+    """
+    Basic test for the ApplyStrainsWithSymmetries workchain.
+    """
+    from aiida.engine import run
+    from aiida import orm
+    from aiida_strain import ApplyStrainsWithSymmetry
 
     inputs = strain_inputs
-    strain_list = inputs['strain_strengths'].get_attr('list')
+    strain_list = inputs['strain_strengths'].get_attribute('list')
 
     result = run(
         ApplyStrainsWithSymmetry,
-        symmetries=DataFactory('singlefile')(file=sample('symmetries.hdf5')),
-        symmetry_repr_code=Code.get_from_string('symmetry_repr'),
-        **inputs)
+        symmetries=orm.SinglefileData(file=sample('symmetries.hdf5')),
+        symmetry_repr_code=orm.Code.get_from_string('symmetry_repr'),
+        **inputs
+    )
 
-    for s in strain_list:
-        structure_key = 'structure_{}'.format(s).replace('.', '_dot_')
+    for strain_val in strain_list:
+        structure_key = (
+            'structure_{}'.format(strain_val).replace('.', '_dot_').replace('-', '_m_')
+        )
         assert structure_key in result
-        assert isinstance(result[structure_key], DataFactory('structure'))
-        symmetries_key = 'symmetries_{}'.format(s).replace('.', '_dot_')
+        assert isinstance(result[structure_key], orm.StructureData)
+        symmetries_key = (
+            'symmetries_{}'.format(strain_val).replace('.', '_dot_').replace('-', '_m_')
+        )
         assert symmetries_key in result
-        assert isinstance(result[symmetries_key], DataFactory('singlefile'))
+        assert isinstance(result[symmetries_key], orm.SinglefileData)
     for key in result:
-        key_withdot = key.replace('_dot_', '.')
-        assert len(key_withdot.split('_')) <= 2
+        key_unescaped = key.replace('_dot_', '.').replace('_m_', '-')
+        assert len(key_unescaped.split('_')) <= 2

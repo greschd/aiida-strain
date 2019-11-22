@@ -1,10 +1,17 @@
 language: python
 python:
-  - "2.7"
   - "3.6"
+  - "3.7"
+  - "3.8"
+env:
+  - TEST_TYPE="tests" INSTALL_TYPE="testing"
+  - TEST_TYPE="tests" INSTALL_TYPE="testing_sdist"
+jobs:
+  include:
+  - python: "3.7"
+    env: TEST_TYPE="pre-commit" INSTALL_TYPE="dev_precommit"
 cache: pip
 sudo: true
-dist: xenial
 services:
   - postgresql
   - rabbitmq
@@ -16,21 +23,13 @@ addons:
       - python3-tk
       - python3-pip
       - python3-numpy
-      - python3-scipy
       - python3-h5py
-  postgresql: "9.5"
 before_install:
-  - sudo pip3 install -U setuptools
+  - sudo pip3 install -U pip setuptools
   - sudo pip3 install -U scipy decorator
   - sudo pip3 install symmetry-representation
+  - sudo service postgresql restart
 install:
-  - pip install -U 'pip<19' wheel setuptools
-  - pip install git+https://github.com/aiidateam/aiida_core@v1.0.0a4#egg=aiida_core
-  - pip install git+https://github.com/greschd/aiida_pytest@support_alpha_4#egg=aiida_pytest
-  - pip install .[test,pre-commit]
-  - reentry scan
-env:
-  - TEST_TYPE="pre-commit"
-  - TEST_TYPE="tests"
+  - ./.travis-data/install_script.sh
 script:
   - ./.travis-data/test_script.sh

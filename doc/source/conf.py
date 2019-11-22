@@ -3,17 +3,12 @@
 # © 2017-2019, ETH Zurich, Institut für Theoretische Physik
 # Author: Dominik Gresch <greschd@gmx.ch>
 
-import sys, os
+import os
+import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), os.pardir))
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'rtd_settings'
-
-import aiida
-from aiida.backends import settings
-
-# We set that we are in documentation mode - even for local compilation
-settings.IN_DOC_MODE = True
 
 # on_rtd is whether we are on readthedocs.org, this line of code grabbed
 # from docs.readthedocs.org
@@ -21,16 +16,40 @@ settings.IN_DOC_MODE = True
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 if not on_rtd:  # only import and set the theme if we're building docs locally
-    html_theme = 'sphinx_rtd_theme'
-    # Loading the dbenv. The backend should be fixed before compiling the
-    # documentation.
-    aiida.try_load_dbenv()
+    try:
+        import sphinx_rtd_theme
+        html_theme = 'sphinx_rtd_theme'
+        html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+    except ImportError:
+        # No sphinx_rtd_theme installed
+        pass
+    # Load the database environment by first loading the profile and then loading the backend through the manager
+    from aiida.manage.configuration import get_config, load_profile
+    from aiida.manage.manager import get_manager
+    config = get_config()
+    load_profile(config.default_profile_name)
+    get_manager().get_backend()
 else:
-    # Back-end settings for readthedocs online documentation.
-    # from aiida.backends import settings
-    settings.IN_RT_DOC_MODE = True
-    settings.BACKEND = "django"
-    settings.AIIDADB_PROFILE = "default"
+    from aiida.manage import configuration
+    from aiida.manage.configuration import load_profile, reset_config
+    from aiida.manage.manager import get_manager
+
+    # Set the global variable to trigger shortcut behavior in `aiida.manager.configuration.load_config`
+    configuration.IN_RT_DOC_MODE = True
+
+    # First need to reset the config, because an empty one will have been loaded when `aiida` module got imported
+    reset_config()
+
+    # Load the profile: this will first load the config, which will be the dummy one for RTD purposes
+    load_profile()
+
+    # Finally load the database backend but without checking the schema because there is no actual database
+    get_manager()._load_backend(schema_check=False)
+
+    # make sure all entry-points are detected, since readthedocs doesn't expose a way to do this
+    # during post-install.
+    import reentry
+    reentry.manager.scan()
 
 import aiida_strain
 
@@ -143,16 +162,14 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'aiida-strain.tex', u'aiida-strain Documentation',
-     u'Dominik Gresch', 'manual'),
+    (master_doc, 'aiida-strain.tex', u'aiida-strain Documentation', u'Dominik Gresch', 'manual'),
 ]
 
 # -- Options for manual page output ---------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [(master_doc, 'aiida-strain', u'aiida-strain Documentation',
-              [author], 1)]
+man_pages = [(master_doc, 'aiida-strain', u'aiida-strain Documentation', [author], 1)]
 
 # -- Options for Texinfo output -------------------------------------------
 
@@ -160,8 +177,10 @@ man_pages = [(master_doc, 'aiida-strain', u'aiida-strain Documentation',
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'aiida-strain', u'aiida-strain Documentation', author,
-     'aiida-strain', 'One line description of project.', 'Miscellaneous'),
+    (
+        master_doc, 'aiida-strain', u'aiida-strain Documentation', author, 'aiida-strain',
+        'One line description of project.', 'Miscellaneous'
+    ),
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
