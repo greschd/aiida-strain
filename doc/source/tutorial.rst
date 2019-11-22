@@ -23,7 +23,7 @@ In the following example, we apply -2\%, -1\%, 1\% and 2\% uni-axial (110) strai
 Filtering symmetries
 --------------------
 
-In addition to creating strained structures, you can also find out which symmetries the strained structure respects. To do that, use the :class:`ApplyStrainsWithSymmetries` workflow, and add as an additional input a file describing the symmetries in :mod:`symmetry_representation` HDF5 format:
+In addition to creating strained structures, you can also find out which symmetries the strained structure respects. To do that, use the :class:`ApplyStrainsWithSymmetry` workflow, and add as an additional input a file describing the symmetries in :mod:`symmetry_representation` HDF5 format:
 
 .. include:: ../../examples/InSb/run_strain_with_symmetries.py
     :code: python
