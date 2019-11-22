@@ -44,7 +44,10 @@ class ApplyStrains(WorkChain):
 
 
 @calcfunction
-def _apply_single_strain(structure, strain_kind, strain_parameters, strength_value):
+def _apply_single_strain(
+    structure: orm.StructureData, strain_kind: orm.Str, strain_parameters: orm.Str,
+    strength_value: orm.Float
+) -> orm.StructureData:
     """
     Applies a specific strain (kind, parameters, and value) to the given
     structure, and returns the strained structure.
