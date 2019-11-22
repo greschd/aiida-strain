@@ -8,7 +8,10 @@ Example applying uniaxial 110 strain on InSb, and filtering
 the symmetries.
 """
 
-import os
+import sys
+from os.path import dirname, abspath
+
+sys.path.append(dirname(abspath(__file__)))
 
 from aiida import orm
 from aiida.engine.launch import run
@@ -21,7 +24,7 @@ if __name__ == '__main__':
     print(
         run(
             ApplyStrainsWithSymmetry,
-            symmetries=orm.SinglefileData(file=os.path.abspath('symmetries.hdf5')),
+            symmetries=orm.SinglefileData(file=abspath('symmetries.hdf5')),
             symmetry_repr_code=orm.Code.get_from_string('symmetry-repr'),
             **get_strain_input()
         )

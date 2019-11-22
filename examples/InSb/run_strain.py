@@ -29,7 +29,7 @@ def get_strain_input(  # pylint: disable=missing-docstring
         structure=structure,
         strain_kind=Str(strain_kind),
         strain_parameters=Str(strain_parameters),
-        strain_strengths=List(list=strain_strengths)
+        strain_strengths=List(list=list(strain_strengths))
     )
 
 
