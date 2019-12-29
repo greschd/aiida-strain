@@ -26,6 +26,6 @@ def test_strains(
     result = run(ApplyStrains, **strain_inputs)
 
     for strain_val in strain_list:
-        key = 'structure_{}'.format(strain_val).replace('.', '_dot_').replace('-', '_m_')
+        key = 'structure_{}'.format(strain_val).replace('.', '_dot_').replace('-', 'm_')
         assert key in result
         assert isinstance(result[key], DataFactory('structure'))

@@ -30,16 +30,15 @@ def test_strains(configure_with_daemon, strain_inputs, sample):
     )
 
     for strain_val in strain_list:
-        structure_key = (
-            'structure_{}'.format(strain_val).replace('.', '_dot_').replace('-', '_m_')
-        )
+        structure_key = ('structure_{}'.format(strain_val).replace('.', '_dot_').replace('-', 'm_'))
         assert structure_key in result
         assert isinstance(result[structure_key], orm.StructureData)
         symmetries_key = (
-            'symmetries_{}'.format(strain_val).replace('.', '_dot_').replace('-', '_m_')
+            'symmetries_{}'.format(strain_val).replace('.', '_dot_').replace('-', 'm_')
         )
         assert symmetries_key in result
         assert isinstance(result[symmetries_key], orm.SinglefileData)
     for key in result:
-        key_unescaped = key.replace('_dot_', '.').replace('_m_', '-')
+        assert '__' not in key
+        key_unescaped = key.replace('_dot_', '.').replace('_m_', '_-')
         assert len(key_unescaped.split('_')) <= 2
